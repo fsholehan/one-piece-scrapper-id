@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const path = require("path");
 const cheerio = require("cheerio");
 const cors = require("cors");
 
@@ -12,7 +13,7 @@ const base_url = "https://65.108.132.145";
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Fuad ganteng");
+  res.sendFile(path.join(__dirname, "/documentation.html"));
 });
 
 app.get("/api/all", async (req, res) => {
