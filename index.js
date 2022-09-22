@@ -7,6 +7,8 @@ const PORT = 8000;
 
 const app = express();
 
+const base_url = "https://65.108.132.145";
+
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -14,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/all", async (req, res) => {
-  const response = await axios.get("https://65.108.132.145/anime/one-piece/");
+  const response = await axios.get(`${base_url}/anime/one-piece`);
   const html = response.data;
 
   const $ = cheerio.load(html);
@@ -41,6 +43,20 @@ app.get("/api/all", async (req, res) => {
     imgUrl: $(".thumb").find("img").eq(0).attr("src"),
     title: $(".infox").find("h1").text(),
     episodes,
+  });
+});
+
+// example url => /api/data/?slug=one-piece-episode-1033-subtitle-indonesia
+app.get("/api/data", async (req, res) => {
+  const { slug } = req.query;
+  const response = await axios.get(`${base_url}/${slug}`);
+  const html = response.data;
+
+  const $ = cheerio.load(html);
+
+  res.json({
+    title: $(".entry-title").text(),
+    video_uri: $(".player-embed").find("iframe").attr("src"),
   });
 });
 
