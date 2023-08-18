@@ -3,12 +3,13 @@ const axios = require("axios");
 const path = require("path");
 const cheerio = require("cheerio");
 const cors = require("cors");
+require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-const base_url = "https://65.108.132.145";
+const base_url = process.env.API_URL;
 
 app.use(cors());
 
